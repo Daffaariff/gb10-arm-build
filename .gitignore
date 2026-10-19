@@ -1,1 +1,12 @@
 gpuwerk_questions.md
+.instance
+.host
+watchdog.log
+assets/
+boot.sh
+rent.sh
+env_up.sh
+down.sh
+watchdog.sh
+tunnel.sh
+CHECKLIST.md
