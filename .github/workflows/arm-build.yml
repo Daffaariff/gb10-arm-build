@@ -7,7 +7,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        part: [avatar, llm, stt, tts]
+        part: [avatar, llm, stt, tts, musetalk]
     steps:
       - uses: actions/checkout@v4
       - name: Free disk
