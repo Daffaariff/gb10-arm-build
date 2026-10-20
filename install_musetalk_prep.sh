@@ -9,6 +9,8 @@ rm -rf /tmp/mmcv && git clone -q --depth 1 --branch v2.1.0 https://github.com/op
 MMCV_WITH_OPS=1 FORCE_CUDA=1 TORCH_CUDA_ARCH_LIST="${ARCH:-12.0}" MAX_JOBS=${MAX_JOBS:-3} $P --no-build-isolation -e .
 # NOTE: chumpy (mmpose dep) builds with pip but does not declare it
 $P pip && $P --no-build-isolation chumpy
+# NOTE: xtcocotools (mmpose dep) imports numpy at build time
+$P --no-build-isolation xtcocotools
 $P "mmpose==1.3.2" "mmdet==3.3.0" face-alignment
 cd /opt/MuseTalk && /opt/musetalk/bin/python -c "
 import mmcv, mmcv.ops, mmpose
