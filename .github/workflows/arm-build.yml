@@ -7,7 +7,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        part: [avatar, llm, stt, tts, musetalk, lkpub]
+        part: [musetalkprep]
     steps:
       - uses: actions/checkout@v4
       - name: Free disk
@@ -18,7 +18,7 @@ jobs:
           sudo dpkg -i cuda-keyring_1.1-1_all.deb && sudo apt-get update -q && sudo apt-get install -y -q cuda-toolkit-12-8 cuda-toolkit-13-0
           echo "/usr/local/cuda/bin" >> $GITHUB_PATH
       - name: Install ${{ matrix.part }}
-        run: sudo -E env PATH=/usr/local/cuda/bin:$PATH CUDA_HOME=/usr/local/cuda JOBS=4 bash install_${{ matrix.part }}.sh
+        run: sudo -E env PATH=/usr/local/cuda/bin:$PATH CUDA_HOME=/usr/local/cuda JOBS=4 bash -c 'if [ ${{ matrix.part }} = musetalkprep ]; then bash install_musetalk.sh && bash install_musetalk_prep.sh; else bash install_${{ matrix.part }}.sh; fi'
       - name: Disk after
         if: always()
         run: df -h /
