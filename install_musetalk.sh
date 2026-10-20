@@ -10,7 +10,8 @@ $P "diffusers==0.30.2" "accelerate==0.28.0" "transformers==4.39.2" einops omegac
 $P "huggingface_hub==0.30.2"
 # NOTE: NVENC zero-copy path; optional, avatar-stage falls back to ffmpeg encode without it
 $P "PyNvVideoCodec==2.2.3" || echo "WARN no PyNvVideoCodec for this platform"
-[ -d /opt/MuseTalk ] || git clone -q --depth 1 https://github.com/TMElyralab/MuseTalk.git /opt/MuseTalk
+# NOTE: same MuseTalk code as the box (avatar-stage depends on it) when the bundle is uploaded; else upstream
+if [ -f /root/up/musetalk-code.tgz ]; then mkdir -p /opt && tar xzf /root/up/musetalk-code.tgz -C /opt; else [ -d /opt/MuseTalk ] || git clone -q --depth 1 https://github.com/TMElyralab/MuseTalk.git /opt/MuseTalk; fi
 cd /opt/MuseTalk && /opt/musetalk/bin/python -c "
 import torch, diffusers, transformers, cv2, av, soundfile, librosa
 from diffusers import AutoencoderKL

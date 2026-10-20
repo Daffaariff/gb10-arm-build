@@ -15,3 +15,6 @@ start_be.sh
 install_be.sh
 nginx.conf
 artifacts/
+upload/
+fe5177.log
+fe5177.pid
