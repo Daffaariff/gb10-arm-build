@@ -14,3 +14,4 @@ be_env.sh
 start_be.sh
 install_be.sh
 nginx.conf
+artifacts/

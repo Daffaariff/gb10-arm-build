@@ -7,6 +7,8 @@ $P openmim mmengine ninja psutil "setuptools<70" wheel packaging
 # NOTE: no arm64/CUDA 13 mmcv wheel exists; MMCV_WITH_OPS=1 builds mmcv._ext (a plain pip install misses it on arm64)
 rm -rf /tmp/mmcv && git clone -q --depth 1 --branch v2.1.0 https://github.com/open-mmlab/mmcv.git /tmp/mmcv && cd /tmp/mmcv
 MMCV_WITH_OPS=1 FORCE_CUDA=1 TORCH_CUDA_ARCH_LIST="${ARCH:-12.0}" MAX_JOBS=${MAX_JOBS:-3} $P --no-build-isolation -e .
+# NOTE: chumpy (mmpose dep) builds with pip but does not declare it
+$P pip && $P --no-build-isolation chumpy
 $P "mmpose==1.3.2" "mmdet==3.3.0" face-alignment
 cd /opt/MuseTalk && /opt/musetalk/bin/python -c "
 import mmcv, mmcv.ops, mmpose

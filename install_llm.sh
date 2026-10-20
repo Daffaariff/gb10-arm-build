@@ -2,6 +2,8 @@
 # GB10: llama.cpp server with CUDA for sm_120 (runs on GB10 sm_121).
 set -euxo pipefail
 [ -x /usr/local/bin/llama-server ] && exit 0
+# NOTE: reuse the binaries built on the last GB10 run when shipped
+[ -f /root/up/gb10_built.tgz ] && { tar xzf /root/up/gb10_built.tgz -C / usr/local/bin usr/local/lib && ldconfig && llama-server --version && exit 0; }
 C=${CUDA_HOME:-$(ls -d /usr/local/cuda-13* 2>/dev/null | tail -1)}; C=${C:-/usr/local/cuda}; export CUDACXX=$C/bin/nvcc PATH=$C/bin:$PATH; S=$C/lib64/stubs; [ -e $S/libcuda.so.1 ] || ln -sf $S/libcuda.so $S/libcuda.so.1
 rm -rf /tmp/llama && git clone -q --depth 1 https://github.com/ggml-org/llama.cpp /tmp/llama && cd /tmp/llama
 cmake -B b -DGGML_CUDA=ON -DCMAKE_CUDA_ARCHITECTURES=$( [ -d /usr/local/cuda-13.0 ] && echo 121 || echo 120 ) -DLLAMA_CURL=OFF \
